@@ -1,0 +1,9 @@
+{% extends 'EpixaUserBundle::layout.html.twig' %}
+
+{% block epixa_user_content %}
+    {% for user in users %}
+        <div><a href="{{ path('epixa_user_view_user', {'id': user.getId()}) }}">User {{ user.getId() }}</a></div>
+    {% else %}
+        <div>There are no users here</div>
+    {% endfor %}
+{% endblock epixa_user_content %}

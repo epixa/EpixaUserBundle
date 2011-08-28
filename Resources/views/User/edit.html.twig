@@ -1,0 +1,14 @@
+{% extends 'EpixaUserBundle::layout.html.twig' %}
+
+{% block epixa_user_content %}
+    <form action="{{ path('epixa_user_edit_user', {'id' : user.getId()}) }}" method="post" {{ form_enctype(form) }}>
+        <fieldset>
+            {{ form_widget(form) }}
+        </fieldset>
+
+        <fieldset class="options">
+            <input type="submit" value="Edit" /> or
+            <a href="{{ path('epixa_user_view_user', {'id' : user.getId()}) }}">cancel</a>
+        </fieldset>
+    </form>
+{% endblock epixa_user_content %}

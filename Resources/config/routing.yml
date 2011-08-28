@@ -1,0 +1,3 @@
+epixa_user_user:
+    resource: "@EpixaUserBundle/Controller/UserController.php"
+    type:     annotation

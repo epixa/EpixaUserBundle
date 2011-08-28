@@ -1,0 +1,14 @@
+{% extends 'EpixaUserBundle::layout.html.twig' %}
+
+{% block epixa_user_content %}
+    <form action="{{ path('epixa_user_add_user') }}" method="post" {{ form_enctype(form) }}>
+        <fieldset>
+            {{ form_widget(form) }}
+        </fieldset>
+
+        <fieldset class="options">
+            <input type="submit" value="Add" /> or
+            <a href="{{ path('epixa_user_list_users') }}">cancel</a>
+        </fieldset>
+    </form>
+{% endblock epixa_user_content %}

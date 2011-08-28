@@ -16,6 +16,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 /**
  * @author Court Ewing <court@epixa.com>
  */
-class EpixaTalkfestBundle extends Bundle
+class EpixaUserBundle extends Bundle
 {
 }

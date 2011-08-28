@@ -1,0 +1,8 @@
+{% extends 'EpixaUserBundle::layout.html.twig' %}
+
+{% block epixa_user_content %}
+    <form action="{{ path('epixa_user_delete_user', {'id' : user.getId()}) }}" method="post">
+        <input type="submit" value="Delete" />
+        <a href="{{ path('epixa_user_view_user', {'id' : user.getId()}) }}">Cancel</a>
+    </form>
+{% endblock epixa_user_content %}

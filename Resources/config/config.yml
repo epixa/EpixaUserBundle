@@ -1,0 +1,8 @@
+parameters:
+    epixa_user.service.user.class: Epixa\UserBundle\Service\UserService
+
+services:
+    epixa_user.service.user:
+        class: %epixa_user.service.user.class%
+        calls:
+          - [ setEntityManager, [@doctrine.orm.default_entity_manager] ]
