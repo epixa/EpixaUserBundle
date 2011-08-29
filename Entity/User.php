@@ -12,7 +12,6 @@
 namespace Epixa\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
-    Symfony\Component\Validator\Constraint as Assert,
     Doctrine\Common\Collections\Collection;
 
 /**
@@ -35,7 +34,6 @@ class User
 
     /**
      * @ORM\Column(name="display_name", type="string", length=255, unique=true)
-     * @Assert\NotBlank()
      *
      * @var string
      */
@@ -43,7 +41,7 @@ class User
 
     /**
      * @ORM\ManyToMany(targetEntity="User")
-     * @ORM\JoinTable(name="epixa_user_credential",
+     * @ORM\JoinTable(
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="credential_id", referencedColumnName="id", unique=true)}
      * )
