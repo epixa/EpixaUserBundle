@@ -11,7 +11,9 @@
 
 namespace Epixa\UserBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM,
+    Symfony\Component\Validator\Constraint as Assert,
+    Doctrine\Common\Collections\Collection;
 
 /**
  * @author Court Ewing <court@epixa.com>
@@ -26,8 +28,18 @@ class User
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @var int
      */
     protected $id;
+
+    /**
+     * @ORM\Column(name="display_name", type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     *
+     * @var string
+     */
+    protected $displayName;
 
     /**
      * @ORM\ManyToMany(targetEntity="User")
@@ -35,40 +47,92 @@ class User
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="credential_id", referencedColumnName="id", unique=true)}
      * )
+     *
+     * @var \Doctrine\Common\Collections\Collection
      */
     protected $credentials;
 
     /**
-     * Gets the user identifier
-     * 
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->setCredentials(new \Doctrine\Common\Collections\ArrayCollection);
+    }
+
+    /**
+     * Get the user identifier.
+     *
      * @return int
      */
     public function getId()
     {
         return $this->id;
     }
-    public function __construct()
-    {
-        $this->credentials = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
+
     /**
-     * Add credentials
+     * Add a credential to the user.
      *
-     * @param Epixa\UserBundle\Entity\User $credentials
+     * @param \Epixa\UserBundle\Entity\Credential $credential
      */
-    public function addCredentials(\Epixa\UserBundle\Entity\User $credentials)
+    public function addCredential(Credential $credential)
     {
-        $this->credentials[] = $credentials;
+        if (!$this->getCredentials()->contains($credential)) {
+            $this->getCredentials()->add($credential);
+        }
     }
 
     /**
-     * Get credentials
+     * Remove a credential from the user.
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @param \Epixa\UserBundle\Entity\Credential $credential
+     */
+    public function removeCredential(Credential $credential)
+    {
+        if ($this->getCredentials()->contains($credential)) {
+            $this->getCredentials()->removeElement($credential);
+        }
+    }
+
+    /**
+     * Set the credentials associated with the user.
+     *
+     * @param \Doctrine\Common\Collections\Collection $credentials
+     */
+    protected function setCredentials(Collection $credentials)
+    {
+        $this->credentials = $credentials;
+    }
+
+    /**
+     * Get the user credentials.
+     *
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCredentials()
     {
         return $this->credentials;
     }
+
+    /**
+     * Set the user display name.
+     *
+     * @param string $displayName
+     * @return void
+     */
+    public function setDisplayName($displayName)
+    {
+        $this->displayName = $displayName;
+    }
+
+    /**
+     * Get the user display name.
+     *
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        return $this->displayName;
+    }
+
 }

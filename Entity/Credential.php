@@ -55,15 +55,9 @@ class Credential
         $this->setIdentifier($identifier);
     }
 
-//    /**
-//     * @param int $id
-//     */
-//    public function setId($id)
-//    {
-//        $this->id = $id;
-//    }
-
     /**
+     * Get the credential identifier
+     *
      * @return int
      */
     public function getId()
@@ -72,6 +66,8 @@ class Credential
     }
 
     /**
+     * Set the identifier provided by the authentication provider.
+     *
      * @param string $identifier
      */
     public function setIdentifier($identifier)
@@ -80,6 +76,8 @@ class Credential
     }
 
     /**
+     * Get the identifier provided by the authentication provider.
+     *
      * @return string
      */
     public function getIdentifier()
@@ -88,6 +86,8 @@ class Credential
     }
 
     /**
+     * Set the authentication provider name.
+     *
      * @param string $providerName
      */
     public function setProviderName($providerName)
@@ -96,6 +96,8 @@ class Credential
     }
 
     /**
+     * Get the authentication provider name.
+     *
      * @return string
      */
     public function getProviderName()
