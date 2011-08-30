@@ -12,7 +12,7 @@
 namespace Epixa\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
-    Doctrine\Common\Collections\Collection;
+    Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @author Court Ewing <court@epixa.com>
@@ -46,16 +46,32 @@ class User
      *      inverseJoinColumns={@ORM\JoinColumn(name="credential_id", referencedColumnName="id", unique=true)}
      * )
      *
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \Doctrine\Common\Collections\ArrayCollection
      */
     protected $credentials;
 
     /**
-     * Constructor
+     * @ORM\Column(name="date_created", type="datetime")
+     *
+     * @var \DateTime
+     */
+    protected $dateCreated;
+
+    /**
+     * @ORM\Column(name="last_login", type="datetime", nullable=true)
+     *
+     * @var null|\DateTime
+     */
+    protected $lastLogin = null;
+
+    
+    /**
+     * Sets up the collection for credentials and defaults the date created to now.
      */
     public function __construct()
     {
-        $this->setCredentials(new \Doctrine\Common\Collections\ArrayCollection);
+        $this->setCredentials(new ArrayCollection);
+        $this->setDateCreated('now');
     }
 
     /**
@@ -72,34 +88,40 @@ class User
      * Add a credential to the user.
      *
      * @param \Epixa\UserBundle\Entity\Credential $credential
+     * @return User *Fluent interface*
      */
     public function addCredential(Credential $credential)
     {
         if (!$this->getCredentials()->contains($credential)) {
             $this->getCredentials()->add($credential);
         }
+        return $this;
     }
 
     /**
      * Remove a credential from the user.
      *
      * @param \Epixa\UserBundle\Entity\Credential $credential
+     * @return User *Fluent interface*
      */
     public function removeCredential(Credential $credential)
     {
         if ($this->getCredentials()->contains($credential)) {
             $this->getCredentials()->removeElement($credential);
         }
+        return $this;
     }
 
     /**
      * Set the credentials associated with the user.
      *
-     * @param \Doctrine\Common\Collections\Collection $credentials
+     * @param \Doctrine\Common\Collections\ArrayCollection $credentials
+     * @return User *Fluent interface*
      */
-    protected function setCredentials(Collection $credentials)
+    protected function setCredentials(ArrayCollection $credentials)
     {
         $this->credentials = $credentials;
+        return $this;
     }
 
     /**
@@ -116,11 +138,12 @@ class User
      * Set the user display name.
      *
      * @param string $displayName
-     * @return void
+     * @return User *Fluent interface*
      */
     public function setDisplayName($displayName)
     {
         $this->displayName = $displayName;
+        return $this;
     }
 
     /**
@@ -133,4 +156,71 @@ class User
         return $this->displayName;
     }
 
+    /**
+     * Sets the date this entity was created
+     *
+     * @throws \InvalidArgumentException
+     * @param \DateTime|string|integer $date
+     * @return User *Fluent interface*
+     */
+    public function setDateCreated($date)
+    {
+        if (is_string($date)) {
+            $date = new \DateTime($date);
+        } else if (is_int($date)) {
+            $date = new \DateTime(sprintf('@%d', $date));
+        } else if (!$date instanceof \DateTime) {
+            throw new \InvalidArgumentException(sprintf(
+                'Expecting string, integer or DateTime, but got `%s`',
+                is_object($date) ? get_class($date) : gettype($date)
+            ));
+        }
+
+        $this->dateCreated = $date;
+        return $this;
+    }
+
+    /**
+     * Gets the date that this entity was created
+     *
+     * @return \DateTime
+     */
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
+    }
+
+    /**
+     * Sets the date of the last login
+     * 
+     * @throws \InvalidArgumentException
+     * @param \DateTime|string|integer $date
+     * @return User *Fluent interface*
+     */
+    public function setLastLogin($date)
+    {
+        if (is_string($date)) {
+            $date = new \DateTime($date);
+        } else if (is_int($date)) {
+            $date = new \DateTime(sprintf('@%d', $date));
+        } else if (!$date instanceof \DateTime) {
+            throw new \InvalidArgumentException(sprintf(
+                'Expecting string, integer or DateTime, but got `%s`',
+                is_object($date) ? get_class($date) : gettype($date)
+            ));
+        }
+
+        $this->lastLogin = $date;
+        return $this;
+    }
+
+    /**
+     * Gets the date of the last login
+     * 
+     * @return \DateTime|null
+     */
+    public function getLastLogin()
+    {
+        return $this->lastLogin;
+    }
 }
