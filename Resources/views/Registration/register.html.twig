@@ -1,0 +1,13 @@
+{% extends 'EpixaUserBundle::layout.html.twig' %}
+
+{% block epixa_user_content %}
+    <form action="{{ path('epixa_user_signup') }}" method="post" {{ form_enctype(form) }}>
+        <fieldset>
+            {{ form_widget(form) }}
+        </fieldset>
+
+        <fieldset class="options">
+            <input type="submit" value="Sign up" />
+        </fieldset>
+    </form>
+{% endblock epixa_user_content %}

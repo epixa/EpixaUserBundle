@@ -1,3 +1,7 @@
 epixa_user_user:
     resource: "@EpixaUserBundle/Controller/UserController.php"
     type:     annotation
+
+epixa_user_registration:
+    resource: "@EpixaUserBundle/Controller/RegistrationController.php"
+    type:     annotation

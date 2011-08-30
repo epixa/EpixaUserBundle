@@ -11,6 +11,8 @@
 
 namespace Epixa\UserBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @author Dustin Sweigart <dustins@swigg.net>
  *
@@ -18,8 +20,6 @@ namespace Epixa\UserBundle\Entity;
  * @ORM\Table(name="epixa_credential")
  * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  */
-use Doctrine\ORM\Mapping as ORM;
-
 class Credential
 {
     /**
@@ -49,6 +49,13 @@ class Credential
      */
     protected $identifier;
 
+
+    /**
+     * Sets the provider name and provider identifier
+     * 
+     * @param string $providerName
+     * @param string $identifier
+     */
     public function __construct($providerName, $identifier)
     {
         $this->setProviderName($providerName);

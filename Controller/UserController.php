@@ -44,7 +44,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/user/{id}", requirements={"id"="\d+"}, name="epixa_user_view_user")
+     * @Route("/profile/{id}", requirements={"id"="\d+"}, name="epixa_user_view_user")
      * @Template()
      *
      * @param integer $id The unique identifier of the requested user
